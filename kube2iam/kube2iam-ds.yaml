@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: kube2iam
+  namespace: kube-system
+  labels:
+    app: kube2iam
+spec:
+  template:
+    metadata:
+      labels:
+        name: kube2iam
+    spec:
+      serviceAccountName: kube2iam
+      hostNetwork: true
+      containers:
+        - image: jtblin/kube2iam:latest
+          name: kube2iam
+          args:
+            - "--auto-discover-base-arn" 
+            - "--host-interface=cal+"
+            - "--host-ip=$(HOST_IP)"  
+            - "--iptables=true"      
+          env:
+            - name: HOST_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          securityContext:
+            privileged: true
+          ports:
+             - containerPort: 8181
+               hostPort: 8181
+               name: http
