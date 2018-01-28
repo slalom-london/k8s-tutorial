@@ -5,9 +5,9 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "slalom-k8s-terraform"
+    bucket = "{your-tf-s3-bucket}"
     key    = "external_dns/terraform.tfstate"
     region = "eu-west-1"
-    profile = "slalom"
+    profile = "kops"
   }
 }
