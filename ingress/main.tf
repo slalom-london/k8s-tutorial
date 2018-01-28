@@ -1,13 +1,13 @@
 provider "aws" {
   region      = "eu-west-1"
-  profile     = "slalom"
+  profile     = "default"
 }
 
 terraform {
   backend "s3" {
     bucket = "slalom-k8s-terraform"
-    key    = "external_dns/terraform.tfstate"
+    key    = "ingress/terraform.tfstate"
     region = "eu-west-1"
-    profile = "slalom"
+    profile = "default"
   }
 }

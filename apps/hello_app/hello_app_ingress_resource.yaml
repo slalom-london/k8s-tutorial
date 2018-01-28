@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: "hello-app-alb-ingress"
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/subnets: 'subnet-e8bb57a0, subnet-73ebf214, subnet-6c547137'
+    #alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":443}]'
+  labels:
+    app: salutations
+spec:
+  rules:
+  #- host: salutations.zigzag-london.com
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: "salutations-service"
+          servicePort: 80
