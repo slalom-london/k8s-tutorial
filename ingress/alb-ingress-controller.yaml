@@ -25,7 +25,7 @@ spec:
   template:
     metadata:
       annotations:
-        iam.amazonaws.com/role: arn:aws:iam::143599268911:role/ingress_pod_role
+        iam.amazonaws.com/role: {your-ingress-pod-IAM-role-arn}
       creationTimestamp: null
       labels:
         app: alb-ingress-controller
@@ -57,7 +57,7 @@ spec:
           # by the ALB Ingress Controller, providing distinction between
           # clusters.
         - name: CLUSTER_NAME
-          value: cluster
+          value: {your-cluster-name}
           # AWS key id for authenticating with the AWS API.
           # This is only here for examples. It's recommended you instead use
           # a project like kube2iam for granting access.
