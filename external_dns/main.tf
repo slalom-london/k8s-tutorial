@@ -1,6 +1,6 @@
 provider "aws" {
   region      = "eu-west-1"
-  profile     = "slalom"
+  profile     = "default"
 }
 
 terraform {
