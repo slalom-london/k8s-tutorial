@@ -42,6 +42,14 @@ resource "aws_s3_bucket" "kops_config_bucket" {
 		enabled = true
 	}
 
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+
 	tags {
 		Name    = "kops Cluster Configuration Bucket"
 	}
@@ -73,6 +81,58 @@ resource "aws_s3_bucket_policy" "b" {
 				]
 		}
 	]
+}
+POLICY
+
+}
+
+resource "aws_s3_bucket" "terraform_state_bucket" {
+  bucket      = "{my_tf_bucket_name}"
+  acl         =  "private"
+
+  versioning {
+    enabled = true
+  }
+
+	server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+
+  tags {
+    Name    = "Terraform State Bucket"
+  }
+}
+
+resource "aws_s3_bucket_policy" "b" {
+  bucket      = "${aws_s3_bucket.terraform_state_bucket.id}"
+  policy      =<<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+        "Sid": "Allow kops user access to k8s cluster configuration bucket",
+        "Effect": "Allow",
+        "Principal": {
+            "AWS": [
+                "${aws_iam_user.kops.arn}"
+            ]
+        },
+        "Action": [
+            "s3:GetBucketLocation",
+            "s3:ListBucket",
+            "s3:GetObject",
+            "s3:PutObject"
+        ],
+        "Resource": [
+            "${aws_s3_bucket.terraform_state_bucket.arn}",
+            "${aws_s3_bucket.terraform_state_bucket.arn}/*"
+        ]
+    }
+  ]
 }
 POLICY
 
