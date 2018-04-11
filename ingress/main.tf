@@ -1,6 +1,5 @@
 provider "aws" {
   region      = "{your-aws-region}"
-  profile     = "kops"
 }
 
 terraform {
