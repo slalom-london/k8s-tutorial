@@ -52,7 +52,7 @@ spec:
           # List of regions:
           # http://docs.aws.amazon.com/general/latest/gr/rande.html#vpc_region 
         - name: AWS_REGION
-          value: eu-west-1
+          value: {your-aws-region}
           # Name of your cluster. Used when naming resources created
           # by the ALB Ingress Controller, providing distinction between
           # clusters.
